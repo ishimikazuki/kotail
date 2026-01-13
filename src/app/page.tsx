@@ -53,10 +53,10 @@ export default async function HomePage({ searchParams }: HomePageProps) {
 
           <div className="container mx-auto px-4 text-center relative z-10">
             <h1 className="text-3xl md:text-5xl font-bold mb-6">
-              企業から公式見解を得られる口コミサイト「コタエル」
+              生の声と対話しよう
             </h1>
             <p className="text-sky-100 mb-10 text-lg">
-              "生の声"と対話しよう
+              企業から公式見解を得られる口コミサイト「コタエル」
             </p>
 
             <form
