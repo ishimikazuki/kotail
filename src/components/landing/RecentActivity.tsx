@@ -24,7 +24,7 @@ type ActivityRow = {
     id: string;
     name: string;
     hero_image_url: string | null;
-  } | null;
+  }[] | null;
 };
 
 export default async function RecentActivity() {
@@ -53,7 +53,7 @@ export default async function RecentActivity() {
     <div className="bg-white rounded-2xl border border-gray-200 shadow-sm divide-y divide-gray-100">
       {activities.map((activity: ActivityRow) => {
         const timeLabel = getRelativeTime(activity.created_at);
-        const company = activity.companies;
+        const company = activity.companies?.[0] ?? null;
         const initial = company?.name?.slice(0, 1) ?? "?";
 
         return (
