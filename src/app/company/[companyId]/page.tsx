@@ -77,7 +77,7 @@ export async function generateMetadata({ params }: PageProps) {
   }
 
   return {
-    title: `${company.name} - kotail`,
+    title: `${company.name} - コタエル`,
     description: company.overall_summary || `${company.name}の口コミ・評判`,
   };
 }

@@ -53,10 +53,10 @@ export default async function HomePage({ searchParams }: HomePageProps) {
 
           <div className="container mx-auto px-4 text-center relative z-10">
             <h1 className="text-3xl md:text-5xl font-bold mb-6">
-              生の声と対話しよう
+              企業から公式見解を得られる口コミサイト「コタエル」
             </h1>
             <p className="text-sky-100 mb-10 text-lg">
-              企業から公式見解を得られる口コミサイト
+              "生の声"と対話しよう
             </p>
 
             <form
@@ -169,7 +169,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
       </main>
 
       <footer className="bg-slate-50 border-t border-gray-200 py-12 text-center text-sm text-gray-500">
-        © 2026 kotail Project.
+        © 2026 コタエル Project.
       </footer>
     </div>
   );
