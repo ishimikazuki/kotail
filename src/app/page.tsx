@@ -184,6 +184,16 @@ export default async function HomePage({ searchParams }: HomePageProps) {
       </main>
 
       <footer className="bg-slate-50 border-t border-gray-200 py-12 text-center text-sm text-gray-500">
+        <div className="mb-3">
+          <a
+            href="https://www.genai-ai.co.jp/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-[#00a0e9] transition-colors"
+          >
+            運営会社
+          </a>
+        </div>
         © 2026 コタエル Project.
       </footer>
     </div>
