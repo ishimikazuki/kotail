@@ -61,17 +61,23 @@ export default function ReviewCard({
       {/* 質問者セクション */}
       <div className="flex items-start gap-4 mb-4">
         <div className="w-12 h-12 mt-1 bg-gray-100 rounded-full flex items-center justify-center flex-shrink-0">
-          <svg
-            className="w-6 h-6 text-gray-400"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
+          <svg className="w-8 h-8" viewBox="0 0 48 48" aria-hidden="true">
+            <circle cx="24" cy="18" r="10" fill="#7A6A5E" />
             <path
+              d="M16 18c2-5 6-8 12-8 5 0 8 2 11 7-3-2-6-3-9-3-4 0-8 2-10 4z"
+              fill="#6B5D52"
+            />
+            <circle cx="24" cy="20" r="8" fill="#F2D2BD" />
+            <path
+              d="M14 40c2-6 8-10 10-10s8 4 10 10v4H14z"
+              fill="#A7D8E6"
+            />
+            <path
+              d="M19 20c1.5 2.5 4 4 5 4s3.5-1.5 5-4"
+              stroke="#C79F8B"
+              strokeWidth="1.5"
               strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+              fill="none"
             />
           </svg>
         </div>
