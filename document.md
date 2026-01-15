@@ -22,6 +22,7 @@
 ## 重要な決定事項
 - 2026-01-15: Supabase CLI経由で画像アップロードを自動化
 - 2026-01-15: hero_image_urlをMVとサムネイル両方で共用
+- 2026-01-15: MCP設定を`.mcp.json`に集約し、Supabase/Vercelをプロジェクト単位で利用可能にする
 
 ## ログ参照
 → PROJECT_LOG/INDEX.md

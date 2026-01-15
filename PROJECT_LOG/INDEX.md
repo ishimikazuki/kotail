@@ -1,3 +1,5 @@
 # PROJECT_LOG INDEX
 
+- issue-0012-2026-01-15-workplace-qa-insert.md — 職場環境Q&Aを4件作成しSupabaseへ登録
+- issue-0011-2026-01-15-mcp-cli-setup.md — Supabase/Vercel MCPとCLIの利用設定
 - 2026-01-15-supabase-data-import-setup.md — Supabaseデータインポート環境構築、CLAUDE.md作成
