@@ -107,11 +107,6 @@ export default async function CompaniesPage({
     const matchesName = nameQuery
       ? target.toLowerCase().includes(nameQuery.toLowerCase())
       : true;
-    const industryNames = company.industries.length
-      ? company.industries.map((industry) => industry.name)
-      : company.business
-        ? [company.business]
-        : [];
     const matchesIndustry = industryQuery.length
       ? industryQuery.some((industry) => industryNames.includes(industry))
       : true;
