@@ -16,7 +16,10 @@ export default function Header() {
         </div>
 
         <nav className="hidden md:flex items-center gap-6 text-sm text-gray-600">
-          <Link href="#" className="hover:text-[#00a0e9] transition-colors">
+          <Link
+            href="/companies"
+            className="hover:text-[#00a0e9] transition-colors"
+          >
             企業を探す
           </Link>
           <Link href="#" className="hover:text-[#00a0e9] transition-colors">
