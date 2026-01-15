@@ -17,14 +17,11 @@ export default function HeroBanner({
           style={{ backgroundImage: `url(${imageUrl})` }}
         />
       ) : (
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-blue-500 to-cyan-400" />
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(https://jjshrbvqpmiwsefeizqy.supabase.co/storage/v1/object/public/company-images/genai-hero.png)` }}
+        />
       )}
-      <div className="absolute inset-0 bg-black/30" />
-      <div className="relative h-full flex items-center justify-center">
-        <p className="text-white text-2xl md:text-4xl font-bold tracking-wider drop-shadow-lg">
-          {tagline}
-        </p>
-      </div>
     </div>
   );
 }
