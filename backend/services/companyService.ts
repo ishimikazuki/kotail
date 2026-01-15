@@ -1,5 +1,22 @@
 import { supabase } from '@backend/lib/supabase';
-import { Company } from '@backend/types/company';
+import { Company, Industry } from '@backend/types/company';
+
+type CompanyRecord = Omit<Company, 'industries'> & {
+  company_industries?: { industries: Industry | null }[] | null;
+};
+
+const normalizeCompany = (record: CompanyRecord): Company => {
+  const { company_industries, ...rest } = record;
+  const industries =
+    company_industries
+      ?.map((entry) => entry.industries)
+      .filter((industry): industry is Industry => Boolean(industry)) ?? [];
+
+  return {
+    ...rest,
+    industries,
+  };
+};
 
 /**
  * Fetch a single company by ID
@@ -7,7 +24,7 @@ import { Company } from '@backend/types/company';
 export async function getCompanyById(companyId: string): Promise<Company | null> {
   const { data, error } = await supabase
     .from('companies')
-    .select('*')
+    .select('*, company_industries(industries(id,name))')
     .eq('id', companyId)
     .single();
 
@@ -18,7 +35,7 @@ export async function getCompanyById(companyId: string): Promise<Company | null>
     throw new Error(error.message);
   }
 
-  return data as Company;
+  return normalizeCompany(data as CompanyRecord);
 }
 
 /**
@@ -27,12 +44,12 @@ export async function getCompanyById(companyId: string): Promise<Company | null>
 export async function getAllCompanies(): Promise<Company[]> {
   const { data, error } = await supabase
     .from('companies')
-    .select('*')
+    .select('*, company_industries(industries(id,name))')
     .order('name', { ascending: true });
 
   if (error) {
     throw new Error(error.message);
   }
 
-  return data as Company[];
+  return (data as CompanyRecord[]).map(normalizeCompany);
 }

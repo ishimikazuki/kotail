@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Header from "@/components/Header";
 import { getAllCompanies } from "@backend/services/companyService";
+import { getAllIndustries } from "@backend/services/industryService";
 
 interface CompaniesPageProps {
   searchParams?: {
@@ -63,6 +64,13 @@ const prefectures = [
 const getParamValue = (value?: string | string[]) =>
   typeof value === "string" ? value.trim() : "";
 
+const getParamValues = (value?: string | string[]) => {
+  if (Array.isArray(value)) {
+    return value.map((entry) => entry.trim()).filter(Boolean);
+  }
+  return value ? [value.trim()].filter(Boolean) : [];
+};
+
 const getPrefecture = (address?: string | null) => {
   if (!address) return "";
   const matched = prefectures.find((pref) => address.startsWith(pref));
@@ -73,39 +81,44 @@ export default async function CompaniesPage({
   searchParams,
 }: CompaniesPageProps) {
   const companies = await getAllCompanies();
+  const industryOptions = await getAllIndustries();
 
   const nameQuery = getParamValue(searchParams?.name);
-  const industryQuery = getParamValue(searchParams?.industry);
+  const industryQuery = getParamValues(searchParams?.industry);
   const prefectureQuery = getParamValue(searchParams?.prefecture);
-
-  const industries = Array.from(
-    new Set(
-      companies
-        .map((company) => company.business?.trim())
-        .filter((value): value is string => Boolean(value))
-    )
-  ).sort((a, b) => a.localeCompare(b, "ja"));
 
   const availablePrefectures = Array.from(
     new Set(
       companies
-        .map((company) => getPrefecture(company.address))
+        .map((company) => company.prefecture || getPrefecture(company.address))
         .filter((value) => value)
     )
   );
 
   const filteredCompanies = companies.filter((company) => {
-    const target = `${company.name ?? ""} ${company.business ?? ""} ${
+    const industryNames = company.industries.length
+      ? company.industries.map((industry) => industry.name)
+      : company.business
+        ? [company.business]
+        : [];
+    const target = `${company.name ?? ""} ${industryNames.join(" ")} ${
       company.address ?? ""
     }`;
     const matchesName = nameQuery
       ? target.toLowerCase().includes(nameQuery.toLowerCase())
       : true;
-    const matchesIndustry = industryQuery
-      ? company.business === industryQuery
+    const industryNames = company.industries.length
+      ? company.industries.map((industry) => industry.name)
+      : company.business
+        ? [company.business]
+        : [];
+    const matchesIndustry = industryQuery.length
+      ? industryQuery.some((industry) => industryNames.includes(industry))
       : true;
+    const companyPrefecture =
+      company.prefecture || getPrefecture(company.address);
     const matchesPrefecture = prefectureQuery
-      ? getPrefecture(company.address) === prefectureQuery
+      ? companyPrefecture === prefectureQuery
       : true;
 
     return matchesName && matchesIndustry && matchesPrefecture;
@@ -155,16 +168,23 @@ export default async function CompaniesPage({
                   </label>
                   <select
                     name="industry"
+                    multiple
                     defaultValue={industryQuery}
                     className="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-700 focus:border-[#00a0e9] focus:outline-none focus:ring-2 focus:ring-[#00a0e9]/30"
                   >
-                    <option value="">選択してください</option>
-                    {industries.map((industry) => (
-                      <option key={industry} value={industry}>
-                        {industry}
-                      </option>
-                    ))}
+                    {industryOptions.length === 0 ? (
+                      <option disabled>業種がまだ登録されていません</option>
+                    ) : (
+                      industryOptions.map((industry) => (
+                        <option key={industry.id} value={industry.name}>
+                          {industry.name}
+                        </option>
+                      ))
+                    )}
                   </select>
+                  <p className="text-xs text-gray-400">
+                    複数選択可（Ctrl/⌘ + クリック）
+                  </p>
                 </div>
 
                 <div className="space-y-2">
@@ -218,7 +238,13 @@ export default async function CompaniesPage({
             ) : (
               <div className="space-y-5">
                 {filteredCompanies.map((company) => {
-                  const prefecture = getPrefecture(company.address);
+                  const prefecture =
+                    company.prefecture || getPrefecture(company.address);
+                  const industryLabels = company.industries.length
+                    ? company.industries.map((industry) => industry.name)
+                    : company.business
+                      ? [company.business]
+                      : [];
                   return (
                     <Link
                       key={company.id}
@@ -258,9 +284,9 @@ export default async function CompaniesPage({
                         </div>
 
                         <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-gray-500">
-                          {company.business && (
+                          {industryLabels.length > 0 && (
                             <span className="rounded-full border border-gray-200 px-2.5 py-1">
-                              業種 {company.business}
+                              業種 {industryLabels.join(" / ")}
                             </span>
                           )}
                           {prefecture && (

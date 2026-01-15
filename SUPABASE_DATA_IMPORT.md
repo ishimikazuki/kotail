@@ -55,11 +55,13 @@ https://jjshrbvqpmiwsefeizqy.supabase.co/storage/v1/object/public/company-images
   {
     "name": "株式会社サンプル",
     "address": "東京都渋谷区...",
+    "prefecture": "東京都",
     "url": "https://example.com",
     "employee_count": "100-500名",
     "established": "2010年",
     "capital": "1億円",
-    "business": "ITサービス",
+    "industries": ["ITサービス", "SaaS"],
+    "business": "ITサービス（旧カラム）",
     "hero_image_path": "/path/to/sample-company.png",
     "overall_summary": "成長中のIT企業...",
     "pros": ["リモートワーク可", "福利厚生充実"],
@@ -75,15 +77,20 @@ https://jjshrbvqpmiwsefeizqy.supabase.co/storage/v1/object/public/company-images
 **カラム一覧（companiesテーブル）:**
 - `name` (必須) - 企業名
 - `address` (必須) - 住所
+- `prefecture` - 都道府県
 - `url` - 企業サイトURL
 - `employee_count` - 従業員数
 - `established` - 設立年
 - `capital` - 資本金
-- `business` - 事業内容
+- `business` - 事業内容（旧カラム）
 - `hero_image_url` - MV画像URL（サムネイルと共通）
 - `overall_summary` - 総評
 - `pros` - 良い点（配列）
 - `cons` - 悪い点（配列）
+
+**業種は正規化（industries / company_industries）:**
+- `industries` に業種名を登録し、`company_industries` で企業と紐づけ
+- 旧データ移行時は `business` を埋めてからマイグレーションのバックフィルを使ってもOK
 
 ### Step 3: Claude Code + MCPでINSERT
 

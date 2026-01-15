@@ -16,10 +16,18 @@ function buildCompanyInfo(company: Company): CompanyInfo[] {
   ];
 
   if (company.url) info.push({ label: 'URL', value: company.url });
+  if (company.prefecture) info.push({ label: '都道府県', value: company.prefecture });
   if (company.employee_count) info.push({ label: '従業員数', value: company.employee_count });
   if (company.established) info.push({ label: '設立', value: company.established });
   if (company.capital) info.push({ label: '資本金', value: company.capital });
-  if (company.business) info.push({ label: '事業内容', value: company.business });
+  if (company.industries.length > 0) {
+    info.push({
+      label: '業種',
+      value: company.industries.map((industry) => industry.name).join(' / '),
+    });
+  } else if (company.business) {
+    info.push({ label: '事業内容', value: company.business });
+  }
 
   return info;
 }

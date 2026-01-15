@@ -33,7 +33,12 @@ export default async function HomePage({ searchParams }: HomePageProps) {
     typeof rawQuery === "string" ? rawQuery.trim() : "";
   const filteredCompanies = query
     ? companies.filter((company) => {
-        const target = `${company.name ?? ""} ${company.business ?? ""} ${
+        const industryNames = company.industries.length
+          ? company.industries.map((industry) => industry.name)
+          : company.business
+            ? [company.business]
+            : [];
+        const target = `${company.name ?? ""} ${industryNames.join(" ")} ${
           company.address ?? ""
         }`;
         return target.toLowerCase().includes(query.toLowerCase());
@@ -99,46 +104,55 @@ export default async function HomePage({ searchParams }: HomePageProps) {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredCompanies.map((company, index) => (
-                <Link
-                  href={`/company/${company.id}`}
-                  key={company.id}
-                  className="group block bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all overflow-hidden"
-                >
-                  <div className="relative">
-                    <div className="aspect-video w-full overflow-hidden">
-                      {company.hero_image_url ? (
-                        <img
-                          src={company.hero_image_url}
-                          alt={`${company.name}のカバー`}
-                          className="w-full h-full object-cover"
-                        />
-                      ) : (
-                        <div className="w-full h-full bg-gradient-to-br from-sky-100 via-cyan-100 to-slate-100" />
-                      )}
-                    </div>
-                    <div className="absolute -bottom-6 left-6 w-14 h-14 rounded-2xl bg-white shadow-md flex items-center justify-center overflow-hidden border border-gray-100">
-                      <span className="text-lg font-bold text-gray-700">{company.name.slice(0, 1)}</span>
-                    </div>
-                  </div>
-                  <div className="pt-10 px-6 pb-6 space-y-4">
-                    <div>
-                      <h3 className="text-xl font-bold text-gray-900 group-hover:text-[#00a0e9] transition-colors">
-                        {company.name}
-                      </h3>
-                      <div className="flex flex-wrap items-center gap-2 text-xs text-gray-500 mt-2">
-                        {company.address && (
-                          <span className="px-2 py-1 bg-gray-100 rounded-full text-gray-600 font-semibold">
-                            {company.address}
-                          </span>
-                        )}
-                        {company.business && (
-                          <span className="px-2 py-1 bg-cyan-500/10 text-cyan-700 rounded-full font-semibold">
-                            {company.business}
-                          </span>
+              {filteredCompanies.map((company, index) => {
+                const industryLabels = company.industries.length
+                  ? company.industries.map((industry) => industry.name)
+                  : company.business
+                    ? [company.business]
+                    : [];
+
+                return (
+                  <Link
+                    href={`/company/${company.id}`}
+                    key={company.id}
+                    className="group block bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all overflow-hidden"
+                  >
+                    <div className="relative">
+                      <div className="aspect-video w-full overflow-hidden">
+                        {company.hero_image_url ? (
+                          <img
+                            src={company.hero_image_url}
+                            alt={`${company.name}のカバー`}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-gradient-to-br from-sky-100 via-cyan-100 to-slate-100" />
                         )}
                       </div>
+                      <div className="absolute -bottom-6 left-6 w-14 h-14 rounded-2xl bg-white shadow-md flex items-center justify-center overflow-hidden border border-gray-100">
+                        <span className="text-lg font-bold text-gray-700">
+                          {company.name.slice(0, 1)}
+                        </span>
+                      </div>
                     </div>
+                    <div className="pt-10 px-6 pb-6 space-y-4">
+                      <div>
+                        <h3 className="text-xl font-bold text-gray-900 group-hover:text-[#00a0e9] transition-colors">
+                          {company.name}
+                        </h3>
+                        <div className="flex flex-wrap items-center gap-2 text-xs text-gray-500 mt-2">
+                          {company.address && (
+                            <span className="px-2 py-1 bg-gray-100 rounded-full text-gray-600 font-semibold">
+                              {company.address}
+                            </span>
+                          )}
+                          {industryLabels.length > 0 && (
+                            <span className="px-2 py-1 bg-cyan-500/10 text-cyan-700 rounded-full font-semibold">
+                              {industryLabels.join(" / ")}
+                            </span>
+                          )}
+                        </div>
+                      </div>
 
                     <div className="rounded-2xl border border-cyan-100 bg-cyan-50/60 p-4">
                       <div className="text-xs font-semibold text-gray-500 mb-2">企業のポイント</div>
@@ -154,8 +168,9 @@ export default async function HomePage({ searchParams }: HomePageProps) {
                       </span>
                     </div>
                   </div>
-                </Link>
-              ))}
+                  </Link>
+                );
+              })}
             </div>
           )}
         </section>

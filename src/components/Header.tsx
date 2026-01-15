@@ -28,9 +28,6 @@ export default function Header() {
           <Link href="#" className="hover:text-[#00a0e9] transition-colors">
             掲載をご希望の方へ
           </Link>
-          <Link href="#" className="hover:text-[#00a0e9] transition-colors">
-            コラム
-          </Link>
           <Link
             href="#"
             className="hover:text-[#00a0e9] transition-colors flex items-center gap-1"
