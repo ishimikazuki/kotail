@@ -20,6 +20,7 @@
 → PLANS.md を参照（なければ特になし）
 
 ## 重要な決定事項
+- 2026-01-16: LPは `kotail-lp.vercel.app` で独立デプロイ
 - 2026-01-15: Supabase CLI経由で画像アップロードを自動化
 - 2026-01-15: hero_image_urlをMVとサムネイル両方で共用
 - 2026-01-15: MCP設定を`.mcp.json`に集約し、Supabase/Vercelをプロジェクト単位で利用可能にする
