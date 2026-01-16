@@ -25,9 +25,14 @@ export default function Header() {
           <Link href="#" className="hover:text-[#00a0e9] transition-colors">
             このサイトについて
           </Link>
-          <Link href="#" className="hover:text-[#00a0e9] transition-colors">
+          <a
+            href="https://kotail-lp.vercel.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-[#00a0e9] transition-colors"
+          >
             掲載をご希望の方へ
-          </Link>
+          </a>
           <a
             href="https://www.genai-ai.co.jp/"
             target="_blank"
