@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Header from "@/components/Header";
 import { getAllCompanies } from "@backend/services/companyService";
+import { getAllIndustries } from "@backend/services/industryService";
 import RecentActivity from "@/components/landing/RecentActivity";
 
 interface HomePageProps {
@@ -11,6 +12,56 @@ const fallbackSummaries = [
   "働き方のリアルを企業ごとに確認できます。",
   "現場の声と公式回答をまとめてチェック。",
   "最新の口コミと企業回答を一つのページで。",
+];
+
+const prefectures = [
+  "北海道",
+  "青森県",
+  "岩手県",
+  "宮城県",
+  "秋田県",
+  "山形県",
+  "福島県",
+  "茨城県",
+  "栃木県",
+  "群馬県",
+  "埼玉県",
+  "千葉県",
+  "東京都",
+  "神奈川県",
+  "新潟県",
+  "富山県",
+  "石川県",
+  "福井県",
+  "山梨県",
+  "長野県",
+  "岐阜県",
+  "静岡県",
+  "愛知県",
+  "三重県",
+  "滋賀県",
+  "京都府",
+  "大阪府",
+  "兵庫県",
+  "奈良県",
+  "和歌山県",
+  "鳥取県",
+  "島根県",
+  "岡山県",
+  "広島県",
+  "山口県",
+  "徳島県",
+  "香川県",
+  "愛媛県",
+  "高知県",
+  "福岡県",
+  "佐賀県",
+  "長崎県",
+  "熊本県",
+  "大分県",
+  "宮崎県",
+  "鹿児島県",
+  "沖縄県",
 ];
 
 function pickSummary(company: {
@@ -28,6 +79,7 @@ function pickSummary(company: {
 
 export default async function HomePage({ searchParams }: HomePageProps) {
   const companies = await getAllCompanies();
+  const industryOptions = await getAllIndustries();
   const rawQuery = searchParams?.q;
   const query =
     typeof rawQuery === "string" ? rawQuery.trim() : "";
@@ -84,6 +136,81 @@ export default async function HomePage({ searchParams }: HomePageProps) {
                 検索
               </button>
             </form>
+          </div>
+        </section>
+
+        <section className="py-10 container mx-auto px-4">
+          <h2 className="text-xl font-bold text-gray-900 mb-6">
+            口コミ回答を探す
+          </h2>
+
+          <div className="space-y-8">
+            <div className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+              <div className="bg-[#4E8DA5] text-white px-6 py-4 font-semibold">
+                業種から探す
+              </div>
+              {industryOptions.length === 0 ? (
+                <div className="p-6 text-sm text-gray-500">
+                  業種がまだ登録されていません。
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-slate-200">
+                  {industryOptions.slice(0, 16).map((industry) => (
+                    <Link
+                      key={industry.id}
+                      href={`/companies?industry=${encodeURIComponent(
+                        industry.name
+                      )}`}
+                      className="group bg-white px-4 py-3 flex items-center justify-between text-sm font-semibold text-slate-700 hover:bg-slate-50 transition"
+                    >
+                      <span className="truncate">{industry.name}</span>
+                      <svg
+                        className="w-4 h-4 text-slate-300 group-hover:text-slate-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M6 9l6 6 6-6"
+                        />
+                      </svg>
+                    </Link>
+                  ))}
+                </div>
+              )}
+              {industryOptions.length > 16 && (
+                <div className="border-t border-slate-200 px-6 py-3 text-right">
+                  <Link
+                    href="/companies"
+                    className="text-sm font-semibold text-[#0A6EA8] hover:text-[#08608f]"
+                  >
+                    すべての業種を見る →
+                  </Link>
+                </div>
+              )}
+            </div>
+
+            <div className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+              <div className="bg-[#4E8DA5] text-white px-6 py-4 font-semibold">
+                地域から探す
+              </div>
+              <div className="p-5 grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2">
+                {prefectures.map((prefecture) => (
+                  <Link
+                    key={prefecture}
+                    href={`/companies?prefecture=${encodeURIComponent(
+                      prefecture
+                    )}`}
+                    className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-600 text-center hover:border-[#0A6EA8] hover:text-[#0A6EA8] hover:shadow-sm transition"
+                  >
+                    {prefecture}
+                  </Link>
+                ))}
+              </div>
+            </div>
           </div>
         </section>
 
