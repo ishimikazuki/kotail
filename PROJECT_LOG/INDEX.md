@@ -1,5 +1,6 @@
 # PROJECT_LOG INDEX
 
+- issue-0017-2026-01-17-about-page.md — Aboutページ（このサイトについて）作成、kotailトンマナ準拠
 - issue-0016-2026-01-16-lp-deploy-and-header-link.md — LPデプロイ、ヘッダーリンク設定、セクション順変更
 - issue-0015-2026-01-16-home-filter-buttons.md — ホームに業種・地域の絞り込みボタンUI追加
 - issue-0014-2026-01-15-company-search-and-industry-prefecture.md — ブランド表記統一と企業検索ページ、業種/都道府県対応

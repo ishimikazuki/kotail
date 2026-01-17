@@ -22,7 +22,7 @@ export default function Header() {
           >
             企業を探す
           </Link>
-          <Link href="#" className="hover:text-[#00a0e9] transition-colors">
+          <Link href="/about" className="hover:text-[#00a0e9] transition-colors">
             このサイトについて
           </Link>
           <a
